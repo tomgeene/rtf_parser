@@ -35,6 +35,7 @@ defmodule RtfParser.MixProject do
     Library for converting RTF to plain text using Rust NIF.
     """
   end
+
   defp package do
     [
       files: ["lib", "mix.exs", "README*", "LICENSE*"],

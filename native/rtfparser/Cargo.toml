@@ -11,4 +11,4 @@ crate-type = ["cdylib"]
 
 [dependencies]
 rustler = "0.31.0"
-rtf-parser = "=0.1.1"
+derivative = "2.2.0"

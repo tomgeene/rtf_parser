@@ -1,29 +1,27 @@
-use rtf_parser::{Lexer, Parser};
+// RTF parser for Text Editor
+// This library supports RTF version 1.9.1
+// Specification is available here : https://dokumen.tips/documents/rtf-specification.html
+// Explanations on specification here : https://www.oreilly.com/library/view/rtf-pocket-guide/9781449302047/ch01.html
 
-#[rustler::nif(schedule = "DirtyCpu")]
-fn rtf_to_text(rtf: String) -> Vec<String> {
-    let tokens = std::panic::catch_unwind(|| Lexer::scan(&rtf.trim()));
-    let tokens = match tokens {
-        Ok(tokens) => tokens,
-        Err(_e) => {
-            return vec![];
-        }
-    };
+#![allow(irrefutable_let_patterns)]
 
-    let doc = std::panic::catch_unwind(|| Parser::new(tokens).parse());
-    let doc = match doc {
-        Ok(doc) => doc,
-        Err(_e) => {
-            return vec![];
-        }
-    };
+// Public API of the crate
+pub mod document;
+pub mod header;
+pub mod lexer;
+pub mod paragraph;
+pub mod parser;
+pub mod tokens;
+mod utils;
 
-    doc
-        .body
-        .iter()
-        .map(|block| block.text.trim().to_string())
-        .filter(|s| !s.is_empty())
-        .collect()
+#[rustler::nif]
+fn scan(input: &str) -> Result<Vec<tokens::Token>, lexer::LexerError> {
+    crate::lexer::Lexer::scan(input)
 }
 
-rustler::init!("Elixir.RtfParser", [rtf_to_text]);
+#[rustler::nif]
+fn parse(tokens: Vec<tokens::Token>) -> Result<document::RtfDocument, parser::ParserError> {
+    crate::parser::Parser::new(tokens).parse()
+}
+
+rustler::init!("Elixir.RtfParser", [scan, parse]);

@@ -96,8 +96,8 @@ impl Lexer {
                         return Err(LexerError::InvalidUnicode(tail.into()));
                     }
                     let byte = u8::from_str_radix(&tail[1..3], 16)?; // f0
-                    //let ch = char::from(byte); // from 0xf0
-                    let mut ret = vec![Token::EscapedChar(byte)];
+                    let ch = char::from(byte); // from 0xf0
+                    let mut ret = vec![Token::EscapedChar(ch)];
                     recursive_tokenize!(&tail[3..], ret);
                     return Ok(ret);
                 }

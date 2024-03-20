@@ -4,10 +4,10 @@ use crate::lexer::LexerError;
 use rustler::NifTaggedEnum;
 
 #[allow(dead_code)]
-#[derive(PartialEq, Eq, Clone, NifTaggedEnum)]
+#[derive(PartialEq, Eq, Clone)]
 pub enum Token<'a> {
     PlainText(&'a str),
-    EscapedChar(u8),
+    EscapedChar(char),
     OpeningBracket,
     ClosingBracket,
     CRLF,                 // Line-return \n

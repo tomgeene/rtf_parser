@@ -147,9 +147,8 @@ impl<'a> Parser<'a> {
                         _ => {}
                     };
                 }
-                Token::EscapedChar(byte) => {
+                Token::EscapedChar(ch) => {
                     let mut tmp = [0u8; 4];
-                    let ch = char::from(byte.clone());
                     Self::add_text_to_document(ch.encode_utf8(&mut tmp), &painter_stack, &paragraph, &mut document)?
                 }
                 Token::PlainText(text) => Self::add_text_to_document(*text, &painter_stack, &paragraph, &mut document)?,

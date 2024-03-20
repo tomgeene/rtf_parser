@@ -1,31 +1,11 @@
 defmodule RtfParser do
   @moduledoc """
   `RtfParser` is a package that can be used to parse a RTF document.
-
-  This module contains two functions:
-  - `scan/1` scans the given RTF document and returns a list of tokens.
-  - `parse/1` parses the given list of tokens and returns a structured RTF document.
-
-  To following example shows the basic usage of the `RtfParser` package:
-
-  ```elixir
-  rtf = "{\\rtf1\\ansi\\ansicpg1252\\deff0\\nouicompat\\deflang1033{\\fonttbl{\\f0\\fnil\\fcharset0 Calibri;}}\n{\\*\\generator Riched20 10.0.18362}\\viewkind4\\uc1 \n\\pard\\sa200\\sl276\\slmult1\\f0\\fs22\\lang9 This is a \\b RTF document\\b0 with some more text\\par\n}\n"
-  {:ok, tokens} = RtfParser.scan(rtf)
-  {:ok, document} = RtfParser.parse(tokens)
-  IO.inspect(document)
-  ```
   """
   use Rustler, otp_app: :rtf_parser, crate: "rtfparser"
 
   @doc """
-  This function scans the given RTF document and returns a list of tokens.
-  These tokens represent the RTF document in a structured way.
-  """
-  @spec scan(binary()) :: [map()]
-  def scan(_rtf), do: :erlang.nif_error(:nif_not_loaded)
-
-  @doc """
-  This function parses the given list of tokens and returns a structured RTF document.
+  This function parses the given binary and returns a structured RTF document.
 
   The structured RTF document is represented as a `RtfDocument` struct.
 
@@ -34,7 +14,7 @@ defmodule RtfParser do
   specific block of text. It contains a `Painter` struct and a `Paragraph` struct.
   Lastly it contains the actual text of the block.
   """
-  @spec parse([map()]) :: RtfDocument.t()
+  @spec parse(binary()) :: RtfDocument.t()
   def parse(_tokens), do: :erlang.nif_error(:nif_not_loaded)
 
   defmodule RtfDocument do

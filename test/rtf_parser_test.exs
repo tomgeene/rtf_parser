@@ -1,30 +1,7 @@
 defmodule RtfParserTest do
   use ExUnit.Case
-  doctest RtfParser
 
   @test_rtf ~S"{ \rtf1\ansi{\fonttbl\f0\fswiss Helvetica;}\f0\pard This is a {\b RTF document} with some more text\par }"
-
-  @expected_token_output [
-    :opening_bracket,
-    {:control_symbol, {:rtf, {:value, 1}}},
-    {:control_symbol, {:ansi, :none}},
-    :opening_bracket,
-    {:control_symbol, {:font_table, :none}},
-    {:control_symbol, {:font_number, {:value, 0}}},
-    {:control_symbol, {{:unknown, "\\fswiss"}, :none}},
-    {:plain_text, "Helvetica;"},
-    :closing_bracket,
-    {:control_symbol, {:font_number, {:value, 0}}},
-    {:control_symbol, {:pard, :none}},
-    {:plain_text, "This is a "},
-    :opening_bracket,
-    {:control_symbol, {:bold, :none}},
-    {:plain_text, "RTF document"},
-    :closing_bracket,
-    {:plain_text, " with some more text"},
-    {:control_symbol, {:par, :none}},
-    :closing_bracket
-  ]
 
   @expected_document %RtfParser.RtfDocument{
     header: %{
@@ -118,21 +95,12 @@ defmodule RtfParserTest do
     ]
   }
 
-  test "scan" do
-    assert {:ok, tokens} = RtfParser.scan(@test_rtf)
-    assert tokens == @expected_token_output
-  end
-
-  test "scan with invalid RTF" do
-    assert {:error, :invalid_last_char} = RtfParser.scan("This is not RTF")
-  end
-
   test "parse" do
-    assert {:ok, parsed} = RtfParser.parse(@expected_token_output)
+    assert {:ok, parsed} = RtfParser.parse(@test_rtf)
     assert parsed == @expected_document
   end
 
-  test "parse with empty tokens" do
-    assert {:error, :no_more_token} = RtfParser.parse([])
+  test "parse with invalid RTF" do
+    assert {:error, :no_more_token} = RtfParser.parse("")
   end
 end

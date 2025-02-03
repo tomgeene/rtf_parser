@@ -7,7 +7,7 @@ RUN apt-get update && \
     apt-get install -y nodejs && \
     apt-get install -y git && \
     curl -L https://npmjs.org/install.sh | sh && \
-    curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh && \
+    curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh -s -- -y && \
     mix local.hex --force && \
     mix archive.install hex phx_new ${PHX_VERSION} --force && \
     mix local.rebar --force

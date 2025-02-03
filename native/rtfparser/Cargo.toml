@@ -1,6 +1,6 @@
 [package]
 name = "rtfparser"
-version = "1.0.0"
+version = "1.1.1"
 authors = []
 edition = "2021"
 
@@ -10,5 +10,5 @@ path = "src/lib.rs"
 crate-type = ["cdylib"]
 
 [dependencies]
-rustler = "0.31.0"
+rustler = "0.36.1"
 derivative = "2.2.0"

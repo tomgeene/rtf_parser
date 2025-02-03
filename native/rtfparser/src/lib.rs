@@ -84,4 +84,4 @@ fn parse(input: &str) -> Result<document::RtfDocument, RtfError> {
     }
 }
 
-rustler::init!("Elixir.RtfParser", [parse]);
+rustler::init!("Elixir.RtfParser");

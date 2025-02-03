@@ -318,7 +318,7 @@ impl<'a> Parser<'a> {
         return Ok(table);
     }
 
-    fn parse_stylesheet(stylesheet_tokens: &Vec<Token<'a>>) -> Result<StyleSheet, ParserError> {
+    fn parse_stylesheet(_stylesheet_tokens: &Vec<Token<'a>>) -> Result<StyleSheet, ParserError> {
         // TODO
         return Ok(StyleSheet {});
     }
